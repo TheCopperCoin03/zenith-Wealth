@@ -354,7 +354,9 @@ section,
   width: 100%;
   height: 100%;
 }
-.hero .carousel-item { position: relative; }
+.hero .carousel-item { 
+  position: relative !important;
+}
 .hero .carousel-item img {
   position: absolute;
   inset: 0;
@@ -821,4 +823,67 @@ section,
   .hero .carousel-item img {
     object-position: center 50% !important;
   }
+}
+
+/* Opportunity – Benefits */
+#opportunity-benefits .benefit {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 14px 12px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--background-color), #000 3%);
+}
+
+#opportunity-benefits .benefit p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--default-color);
+}
+
+#opportunity-benefits .benefit-icon {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--accent-color), transparent 90%);
+  color: var(--accent-color);
+}
+
+#opportunity-benefits .benefit-icon i {
+  font-size: 22px;
+  line-height: 1;
+}
+
+@media (min-width: 992px) {
+  #opportunity-benefits .benefit {
+    padding: 16px 14px;
+  }
+  #opportunity-benefits .benefit-icon {
+    width: 48px; height: 48px;
+  }
+  #opportunity-benefits .benefit p {
+    font-size: 17px;
+  }
+}
+
+/* ปุ่ม CTA ให้เข้ากับธีมเดิม */
+#opportunity-benefits .btn-cta {
+  display: inline-block;
+  background: var(--accent-color);
+  color: var(--contrast-color);
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: .25s;
+}
+#opportunity-benefits .btn-cta:hover {
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--accent-color), #000 10%);
+  color: #fff;
 }
