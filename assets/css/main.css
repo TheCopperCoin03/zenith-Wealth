@@ -515,11 +515,20 @@ section,
 .hero .carousel {
   width: 100%;
   min-height: 100vh;
-  padding: 0 16px;
+  padding: 0 !important;
   box-sizing: border-box;
   margin: 0;
-  background-color: #ffffff;
+  background: transparent !important;
   position: relative;
+  overflow: hidden;
+
+}
+
+.hero .carousel-item img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 @media (min-width: 992px) {
@@ -548,12 +557,12 @@ section,
   overflow: hidden;
 }
 
-.hero .carousel-item:before {
-  content: "";
-  background: transparent;
-  position: absolute;
-  inset: 0;
-  z-index: 2;
+.hero .carousel-item.light-slide::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background: rgba(0,0,0,.28);
+  z-index:2;
 }
 
 .hero .carousel-container {
@@ -571,6 +580,10 @@ section,
   font-size: 48px;
   font-weight: 700;
   animation: fadeInDown 1s both;
+}
+
+.hero .carousel-item.light-slide .carousel-container {
+  z-index:3; 
 }
 
 @media (max-width: 768px) {
@@ -650,6 +663,11 @@ section,
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
+}
+.hero .carousel-item.light-slide .carousel-container h2,
+.hero .carousel-item.light-slide .carousel-container p {
+  color: #F5F7FA; /* เปลี่ยนเป็น #F5F7FA หรือ #212D40 ตามต้องการ */
+  text-shadow: 0 2px 8px rgba(0,0,0,.45);
 }
 
 /* ========== Services (list style) ========== */
@@ -938,4 +956,51 @@ section,
 .team .person .social a:hover {
   background: var(--accent-color);
   color: var(--contrast-color);
+}
+
+/* ========== hero ========== */
+/* 1) ให้ hero โปร่งใส ไม่เอาพื้นดำจาก preset */
+#hero.hero.section.dark-background {
+  background: transparent !important;
+}
+
+/* 2) ปรับตำแหน่งให้สอดคล้องกับ Bootstrap (ไม่บังคับ absolute ที่ตัว .carousel-item) */
+.hero .carousel-item {
+  position: relative !important;
+  min-height: 100vh; /* ให้มีความสูงจริง */
+}
+
+/* 3) บังคับรูปสไลด์ให้เต็มจอแบบ cover (ทับกฎ .hero img เดิม) */
+.hero .carousel-item img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;   /* <<< สำคัญ */
+  object-position: center !important;
+  z-index: 1 !important;
+}
+
+/* 4) ลดความมืดของ overlay (เดิม .28 เข้มไป) */
+.hero .carousel-item.light-slide::before {
+  background: rgba(0,0,0,.18) !important;
+}
+
+/* 5) ยกเลิกผลข้างเคียงจากกฎกว้างเกินไป (.hero img) */
+.hero img {
+  position: static;
+  inset: auto;
+  width: auto;
+  height: auto;
+  object-fit: initial;
+  object-position: initial;
+  z-index: auto;
+}
+
+/* ========== oppo ========== */
+.testimonials-page .page-title {
+  margin-bottom: 40px;   
+}
+@media (min-width: 992px) {
+  .testimonials-page .page-title { margin-bottom: 56px; }
 }
