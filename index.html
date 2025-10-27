@@ -14,7 +14,7 @@
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Preload hero (LCP) -->
-  <link rel="preload" as="image" href="assets/img/hero_1.png">
+  <link rel="preload" as="image" href="assets/img/hero_1.png" imagesrcset="assets/img/hero_1.png 1x">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,6 +30,93 @@
 
   <!-- Main CSS -->
   <link href="assets/css/main.css" rel="stylesheet">
+
+  <!-- Hero fixes (ลดอาการหน้าขาว + ให้รูปครอบเต็ม + คงข้อความเดิม) -->
+  <style>
+    /* ให้สไลด์กินเต็ม viewport เสมอ */
+    #hero .carousel,
+    #hero .carousel-inner,
+    #hero .carousel-item { min-height: 100svh; }
+
+    /* ป้องกัน flash ขาวเวลา fade:
+       - แทนที่การซ่อนด้วย display:none เป็นวางซ้อนแล้วคุมด้วย opacity */
+    .carousel.carousel-fade .carousel-item {
+      position: absolute;
+      inset: 0;
+      display: block;           /* ไม่ซ่อนสไลด์ที่ไม่ active */
+      opacity: 0;
+      transition: opacity .6s ease-in-out;
+      background: transparent;
+    }
+    .carousel.carousel-fade .carousel-item.active {
+      position: relative;       /* สไลด์บนสุด */
+      opacity: 1;
+      z-index: 2;
+    }
+
+    /* รูปให้ครอบเต็มแบบ cover ทุกขนาดหน้าจอ และไม่เกิดขอบดำ */
+    #hero .carousel-item > img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;        /* ครอบเต็ม ไม่บิดรูป */
+      object-position: center;
+      display: block;
+      z-index: 1;
+      background: transparent;
+    }
+
+    /* ชุดสไลด์ที่สว่าง ให้ overlay บาง ๆ เพื่อให้ข้อความอ่านง่าย */
+    #hero .carousel-item.light-slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,.18);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* กล่องข้อความ (คงพฤติกรรมเดิม) */
+    #hero .carousel-container {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding-inline: 20px;
+      text-align: center;
+    }
+    #hero h2 {
+      margin-bottom: 12px;
+      font-size: clamp(24px, 5vw, 48px);
+      font-weight: 700;
+      color: #F5F7FA;
+      text-shadow: 0 2px 8px rgba(0,0,0,.45);
+      animation: fadeInDown 1s both;
+    }
+    #hero p {
+      font-size: clamp(16px, 3.2vw, 24px);
+      color: #F5F7FA;
+      text-shadow: 0 2px 8px rgba(0,0,0,.45);
+      animation: fadeInDown 1s both .2s;
+    }
+
+    /* ไอคอนลูกศรให้ชัดขึ้นเล็กน้อย */
+    #hero .carousel-control-prev-icon,
+    #hero .carousel-control-next-icon {
+      background: none;
+      font-size: 32px;
+      filter: drop-shadow(0 0 5px rgba(0,0,0,.8));
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translate3d(0,-100%,0); }
+      to   { opacity: 1; transform: translate3d(0,0,0); }
+    }
+  </style>
 </head>
 
 <body class="index-page">
@@ -78,11 +165,10 @@
 
     <!-- Hero Section -->
     <section id="hero" class="hero section dark-background">
-      <div id="hero-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000" aria-label="สไลด์โปรโมชัน">
-        
+      <div id="hero-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000" aria-label="สไลด์โปรโมชัน">
         <div class="carousel-inner">
           <div class="carousel-item light-slide active">
-            <img src="assets/img/hero_1.png" alt="Zenith Wealth - สร้างความมั่งคั่งและความมั่นคง" />
+            <img src="assets/img/hero_1.png" alt="Zenith Wealth - สร้างความมั่งคั่งและความมั่นคง" fetchpriority="high">
             <div class="carousel-container">
               <h2>Grow Rich. Live Bright. Join Zenith</h2>
               <p>“Turning Wealth into Lifelong Security with a Professional Heart.”</p>
@@ -90,7 +176,7 @@
           </div>
 
           <div class="carousel-item light-slide">
-            <img src="assets/img/hero_2.png" alt="โซลูชันวางแผนการเงินครบวงจร" loading="lazy" />
+            <img src="assets/img/hero_2.png" alt="โซลูชันวางแผนการเงินครบวงจร" loading="lazy">
             <div class="carousel-container">
               <h2>Grow Rich. Live Bright. Join Zenith</h2>
               <p>“Turning Wealth into Lifelong Security with a Professional Heart.”</p>
@@ -98,7 +184,7 @@
           </div>
 
           <div class="carousel-item light-slide">
-            <img src="assets/img/hero_3.png" alt="ทีมที่ปรึกษามืออาชีพ" loading="lazy" />
+            <img src="assets/img/hero_3.png" alt="ทีมที่ปรึกษามืออาชีพ" loading="lazy">
             <div class="carousel-container">
               <h2>Grow Rich. Live Bright. Join Zenith</h2>
               <p>“Turning Wealth into Lifelong Security with a Professional Heart.”</p>
@@ -106,7 +192,7 @@
           </div>
 
           <div class="carousel-item light-slide">
-            <img src="assets/img/hero_4.png" alt="แผนคุ้มครองยืดหยุ่น คุ้มค่า" loading="lazy" />
+            <img src="assets/img/hero_4.png" alt="แผนคุ้มครองยืดหยุ่น คุ้มค่า" loading="lazy">
             <div class="carousel-container">
               <h2>Grow Rich. Live Bright. Join Zenith</h2>
               <p>“Turning Wealth into Lifelong Security with a Professional Heart.”</p>
@@ -114,7 +200,7 @@
           </div>
 
           <div class="carousel-item light-slide">
-            <img src="assets/img/hero_5.png" alt="ช่วยให้ฝันทางการเงินเป็นจริง" loading="lazy" />
+            <img src="assets/img/hero_5.png" alt="ช่วยให้ฝันทางการเงินเป็นจริง" loading="lazy">
             <div class="carousel-container">
               <h2>Grow Rich. Live Bright. Join Zenith</h2>
               <p>“Turning Wealth into Lifelong Security with a Professional Heart.”</p>
@@ -219,7 +305,6 @@
         สนใจร่วมงานกับเรา สมัครเลย!
       </a>
     </div>
-
     <!-- /CTA -->
   </main>
 
@@ -274,15 +359,19 @@
   <!-- Main JS -->
   <script defer src="assets/js/main.js"></script>
 
-  <!-- Helper: Auto-generate Bootstrap carousel indicators -->
+  <!-- Helper: Auto-generate Bootstrap carousel indicators (ป้องกันซ้ำ) -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const carousel = document.querySelector('#hero-carousel');
-      const inner = carousel.querySelector('.carousel-inner');
-      const items = inner.querySelectorAll('.carousel-item');
-      const indicators = document.getElementById('hero-indicators');
+      if (!carousel) return;
 
-      // Build indicators
+      const items = carousel.querySelectorAll('.carousel-item');
+      const indicators = document.getElementById('hero-indicators');
+      if (!indicators || !items.length) return;
+
+      // กันไม่ให้สร้างซ้ำ ถ้ามีอยู่แล้วก็ล้างก่อน
+      indicators.innerHTML = '';
+
       items.forEach((_, idx) => {
         const btn = document.createElement('button');
         btn.type = 'button';
@@ -293,7 +382,7 @@
         indicators.appendChild(btn);
       });
 
-      // Init AOS (if used)
+      // Init AOS หากใช้
       if (window.AOS) AOS.init({ once: true, duration: 600, offset: 80 });
     });
   </script>
